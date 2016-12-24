@@ -1,5 +1,7 @@
 package fr.nate.slackbot.slack;
 
+import lombok.Getter;
+import lombok.val;
 import org.pircbotx.Configuration;
 import org.pircbotx.PircBotX;
 import org.pircbotx.exception.IrcException;
@@ -9,15 +11,14 @@ import java.io.IOException;
 
 public class SlackClient {
 
-
+    @Getter
     private final PircBotX bot;
 
-    public SlackClient() {
-        Configuration configuration = new Configuration.Builder()
-                .setName("nate")
-                .setServerPassword("foo")
-                .addServer("42born2code.irc.slack.com", 6667)
-                .addAutoJoinChannel("#orbis-non-sufficit")
+    public SlackClient(String host, int port, String user, String password) {
+        val configuration = new Configuration.Builder()
+                .addServer(host, port)
+                .setName(user)
+                .setServerPassword(password)
                 .setSocketFactory(SSLSocketFactory.getDefault())
                 .addListener(new SlackEventListener())
                 .buildConfiguration();

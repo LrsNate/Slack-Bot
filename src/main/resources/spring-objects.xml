@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--suppress SpringPlaceholdersInspection -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:property-placeholder/>
+
+    <bean id="slackClient" class="fr.nate.slackbot.slack.SlackClient">
+        <constructor-arg name="host" value="${SLACKBOT_HOST}"/>
+        <constructor-arg name="port" value="${SLACKBOT_PORT}"/>
+        <constructor-arg name="user" value="${SLACKBOT_USER}"/>
+        <constructor-arg name="password" value="${SLACKBOT_PASSWORD}"/>
+    </bean>
+
+    <bean id="application" class="fr.nate.slackbot.Application">
+        <constructor-arg name="slackClient" ref="slackClient"/>
+    </bean>
+</beans>
