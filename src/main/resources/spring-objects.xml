@@ -7,6 +7,16 @@
 
     <context:property-placeholder/>
 
+    <bean id="application" class="fr.nate.slackbot.Application">
+        <constructor-arg name="slackClient" ref="slackClient"/>
+        <constructor-arg name="describeSynodeHandler" ref="descrybeSynodeHandler"/>
+        <constructor-arg name="sayHelloHandler" ref="sayHelloHandler"/>
+        <constructor-arg name="environmentGetHandler" ref="environmentGetHandler"/>
+        <constructor-arg name="environmentSetHandler" ref="environmentSetHandler"/>
+    </bean>
+
+    <bean id="environment" class="fr.nate.slackbot.environment.InMemoryEnvironment"/>
+
     <bean id="slackClient" class="fr.nate.slackbot.slack.SlackClient">
         <constructor-arg name="host" value="${SLACKBOT_HOST}"/>
         <constructor-arg name="port" value="${SLACKBOT_PORT}"/>
@@ -14,7 +24,16 @@
         <constructor-arg name="password" value="${SLACKBOT_PASSWORD}"/>
     </bean>
 
-    <bean id="application" class="fr.nate.slackbot.Application">
-        <constructor-arg name="slackClient" ref="slackClient"/>
+    <bean id="descrybeSynodeHandler" class="fr.nate.slackbot.actions.DescribeSynodeHandler">
+        <constructor-arg name="environment" ref="environment"/>
     </bean>
+
+    <bean id="environmentGetHandler" class="fr.nate.slackbot.actions.EnvironmentGetHandler">
+        <constructor-arg name="environment" ref="environment"/>
+    </bean>
+    <bean id="environmentSetHandler" class="fr.nate.slackbot.actions.EnvironmentSetHandler">
+        <constructor-arg name="environment" ref="environment"/>
+    </bean>
+
+    <bean id="sayHelloHandler" class="fr.nate.slackbot.actions.SayHelloHandler"/>
 </beans>
